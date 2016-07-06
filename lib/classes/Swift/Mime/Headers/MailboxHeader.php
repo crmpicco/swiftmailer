@@ -260,7 +260,12 @@ class Swift_Mime_Headers_MailboxHeader extends Swift_Mime_Headers_AbstractHeader
                 $address = $value;
                 $name = null;
             }
-            $this->_assertValidAddress($address);
+            try {
+                $this->_assertValidAddress($address);    
+            } catch (Swift_RfcComplianceException $e) {
+                error_log($e->getMessage());
+            }
+            
             $actualMailboxes[$address] = $name;
         }
 
